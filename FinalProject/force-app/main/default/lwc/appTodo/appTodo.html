@@ -1,0 +1,84 @@
+<template>
+  <div class="slds-card">
+    <!-- headr -->
+    <div class="headr-container">
+      <p><span>Today: </span>{dateNow}</p>
+      <lightning-button variant="brand" label="Create new Todo" onclick={openWindow} class="slds-m-left_x-small"></lightning-button>
+      <!-- modal -->
+      <template if:true={modalWindow}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+  
+            <!-- header modal-->
+            <header class="slds-modal__header">
+              <button class="slds-button slds-modal__close slds-button_inverse slds-m-right_x-small" title="Close" onclick={closeWindow}>
+                X
+              </button>
+              <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Create New Todo</h2>
+            </header>
+            
+              <div class="slds-modal__content 
+              slds-p-around_medium" id="modal-content-id-1">
+              <!-- record type -->
+              <lightning-combobox name="recordType"
+                label="Record type"
+                placeholder="Choose Todo record type"
+                value={value} options={recordTypeId} 
+                onchange={changeHandler}>
+              </lightning-combobox>
+              <!-- end record type -->
+              <!-- create todo -->
+              <lightning-record-form 
+              object-api-name={objectApiName} 
+              fields={fields} 
+              record-type-id={recordTypeIdVal}
+              onsuccess={handleSuccess}>
+                <div class="slds-modal__footer">
+                  <lightning-button class="slds-button slds-button_brand" type="submit" name="update" label="Create">
+                  </lightning-button>
+                </div>
+              </lightning-record-form>
+              <!-- end create todo -->
+            </div>
+  
+            <!-- footer modal window-->
+            <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_neutral" onclick={closeWindow}>Close</button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+      <!-- end modal -->
+    </div>
+    <hr/>
+    <!-- body -->
+    <div class="body-container">
+      <!-- record type for developer -->
+      <div class="body-title-container">
+        <p class="dev-name">Developer's todos</p>
+        <p class="admin-name">Admins's todos</p>
+        <p class="manager-name">Manager's todos</p>
+      </div>
+      <div class="record-type-container">
+        <div class="dev-container dev-edition">
+          <c-list-todo class="comonent-todo" recordtype={recordTypeDev}> 
+          </c-list-todo>
+        </div>
+        <!-- record type for admin -->
+        <div class="admin-container admin-edition">
+          <c-list-todo class="comonent-todo" recordtype={recordTypeAdmin}>
+          </c-list-todo>
+        </div>
+        <!-- record type for manager -->
+        <div class="manager-container manager-edition">
+          <c-list-todo class="comonent-todo" recordtype={recordTypeManeger}>
+          </c-list-todo>
+        </div>
+      </div>
+    </div>
+    <!-- footer -->
+    <div>
+    </div>
+  </div>
+</template>

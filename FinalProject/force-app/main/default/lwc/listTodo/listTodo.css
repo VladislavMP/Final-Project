@@ -1,0 +1,62 @@
+.accordion-content-my{
+  display: flex;
+}
+
+.slds-accordion__content > hr{
+  margin: 1rem;
+}
+
+.todo-name{
+  font-weight: bold;
+}
+
+.btn-arrow{
+  margin: 0 1rem;
+  transition: .7s;
+}
+
+.btn-arrow-transform{
+  transform: rotate(-180deg);
+}
+
+.accordion-content-name{
+  flex: 1;
+}
+
+.accordion-content-done{
+  flex:1;
+}
+
+.accordion-content-done > span{
+  color: yellowgreen;
+}
+
+.accordion-content-data{
+  flex:1;
+  margin-right: 1rem;
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.button-custom{
+  margin-top: -.5rem;
+}
+
+.layout-item-container{
+  width: 100%;
+}
+
+.add-sub-form{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.btn-add{
+  float: right;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.my-modal-footer{
+  margin-top: -1rem;
+}
