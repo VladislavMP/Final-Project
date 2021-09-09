@@ -1,11 +1,11 @@
-public with sharing class RestClientToDoMock implements HttpCalloutMock {
+public with sharing class RestClientSubToDoMock implements HttpCalloutMock {
 
     public String responseBody;
-    public RestClientToDoMock(String responseBody) {
+    public RestClientSubToDoMock(String responseBody) {
         this.responseBody = responseBody;
     }
 
-    private RestClientToDoMock() {
+    private RestClientSubToDoMock() {
     }
 
 

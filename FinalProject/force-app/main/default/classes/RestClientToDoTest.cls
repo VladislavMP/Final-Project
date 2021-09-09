@@ -1,20 +1,13 @@
 @IsTest
 private with sharing class RestClientToDoTest {
-
-    /*@IsTest
-    static void getToDoTest() {
-        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock());
-        ToDo__c toDo = RestClientToDo.getToDo('0012w00000L74Cq');
-        System.assertEquals(new ToDo__c(Id = '0012w00000L74Cq', Name = 'Test ToDo__c'), toDo);
-    }*/
     
     @IsTest
     static void createToDoTest() {
         ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
         List<Id> toDoIds = new List<Id>{toDo.Id};
-            
-        RestClientToDoMock.id = toDo.Id;    
-        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock());            
+        String responceBody = JSON.serialize(new Map<String, String>{toDo.Id => '0012w00000L74CqAAJ'});
+
+        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody));            
 		Test.startTest();
         RestClientToDo.createToDo(toDoIds);
         Test.stopTest();
@@ -24,39 +17,31 @@ private with sharing class RestClientToDoTest {
         System.assertEquals('0012w00000L74CqAAJ', externalId);
     }
     
-   /* @IsTest
-    static void deleteToDoTest() {
-        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock());
-        ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
-        RestClientToDo.deleteAccount(toDo.Id);
-
-        System.assertEquals(true, result);
-    }*/
-    
     @IsTest
-    static void upsertToDoTest() {
+    static void deleteToDoTest() {
         ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
         List<Id> toDoIds = new List<Id>{toDo.Id};
-            
-        RestClientToDoMock.id = toDo.Id;    
-        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock());            
-		Test.startTest();
-        RestClientToDo.upsertToDo(toDoIds);
+        Boolean testTry = true;
+        String responceBody = JSON.serialize(new Map<String, String>{toDo.Id => '0012w00000L74CqAAJ'});
+        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody)); 
+        Test.startTest();
+        try{
+            RestClientToDo.deleteToDo(toDoIds);
+        }
+        catch(Exception e){
+            testTry = false;
+        }
         Test.stopTest();
-        
-
-        toDo = [SELECT External_Id__c FROM ToDo__c WHERE Id =: toDo.Id];
-        Id externalId = toDo.External_Id__c;
-        System.assertEquals('0012w00000L74CqAAJ', externalId);
+        System.assertEquals(true, testTry);
     }
     
     @IsTest
     static void updateToDoTest() {
         ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
         List<Id> toDoIds = new List<Id>{toDo.Id};
-            
-        RestClientToDoMock.id = toDo.Id;
-        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock());
+        String responceBody = JSON.serialize(new Map<String, String>{toDo.Id => '0012w00000L74CqAAJ'});
+
+        Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody)); 
 		Test.startTest();
         RestClientToDo.updateToDo(toDoIds);
         Test.stopTest();
