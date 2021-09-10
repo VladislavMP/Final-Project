@@ -6,7 +6,7 @@ public with sharing class TodoQuery {
               Name, 
               RecordType.DeveloperName, 
               RecordType.Id, 
-              (select Id, Name, CreatedDate, Is_done__c from Sub_ToDos__r) 
+              (select Id, Name, Data__c, CreatedDate, Is_done__c from Sub_ToDos__r) 
               FROM ToDo__c ];
   }
 
