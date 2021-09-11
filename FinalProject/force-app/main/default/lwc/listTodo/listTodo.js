@@ -4,10 +4,10 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import { refreshApex } from '@salesforce/apex'
 import getTodoList from '@salesforce/apex/TodoQuery.getTodoList';
 import SUB_TODO_OBJECT from '@salesforce/schema/Sub_ToDo__c';
+import TODO_OBJECT from '@salesforce/schema/ToDo__c';
 import NAME_SUB_FIELD from '@salesforce/schema/Sub_ToDo__c.Name';
-import NAME_TODO_FIELD from '@salesforce/schema/Sub_ToDo__c.ToDo__c';
 import IS_DONE_SUB_FIELD from '@salesforce/schema/Sub_ToDo__c.Is_done__c'
-import TODO_ID_FIELD from '@salesforce/schema/ToDo__c.Id';
+import NAME_TODO_FIELD from '@salesforce/schema/ToDo__c.Name';
 
 export default class ListTodo extends LightningElement {
   strName;
@@ -21,11 +21,14 @@ export default class ListTodo extends LightningElement {
   recordtype;
 
   @api recordId;
+  @api objectApiNameTodo = TODO_OBJECT;
   @api objectApiName = SUB_TODO_OBJECT;
+  fieldsTodo = [NAME_TODO_FIELD];
+  fields = [NAME_SUB_FIELD, IS_DONE_SUB_FIELD];
 
   modalWindowAdd = false
+  modalWindowEditTodo = false;
   modalWindowEdit = false;
-  fields = [NAME_SUB_FIELD, IS_DONE_SUB_FIELD];
 
   get devTodos(){
     return this.listTodo.data.filter(todo => todo.RecordType.DeveloperName === this.recordtype);
@@ -47,6 +50,10 @@ export default class ListTodo extends LightningElement {
     this.modalWindowAdd = false;
   }
 
+  closeWindowEditTodo(){
+    this.modalWindowEditTodo = false;
+  }
+
   closeWindowEdit(){
     this.modalWindowEdit = false;
   }
@@ -66,17 +73,27 @@ export default class ListTodo extends LightningElement {
     let objRecordInput = {apiName : SUB_TODO_OBJECT.objectApiName, fields};
 
     createRecord(objRecordInput).then(response => {
-      console.log("response " + response);
       this.dispatchEvent(
         new ShowToastEvent({
-        title: "Sub-Todo created",
+        title: "Record created",
         variant: "success"
         })
       )
       refreshApex(this.listTodo);
-    }).catch(error => {
-        alert('Error: ' +JSON.stringify(error));
+    }).catch((error) => {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "ERROR",
+          message: "Record not created",
+          variant: "error"
+        })
+      )
     });
+  }
+
+  editRecordTodo(event){
+    this.recordId = event.target.dataset.recordid;
+    this.modalWindowEditTodo = true;
   }
 
   editRecord(event){
@@ -90,7 +107,7 @@ export default class ListTodo extends LightningElement {
       .then(()=>{
         this.dispatchEvent(
           new ShowToastEvent({
-          title: "Todo deleted",
+          title: "The record deleted",
           variant: "success"
           })
         )
@@ -116,7 +133,7 @@ export default class ListTodo extends LightningElement {
   handleSuccessEdit() {
     refreshApex(this.listTodo);
     const toastEvent = new ShowToastEvent({
-      title: "Sub-Todo edit",
+      title: "The record edited",
       variant: "success"
     });
     this.dispatchEvent(toastEvent);

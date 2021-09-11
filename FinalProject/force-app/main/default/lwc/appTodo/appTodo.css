@@ -33,41 +33,20 @@
   flex: 1;
 }
 
-.dev-name{
-  color: #ebb800;
-}
-
-.admin-name{
-  color: #7E7B15;
-}
-
-.manager-name{
-  color: #07575B;
+.app-container-name{
+  color: #1E63B3;
 }
 
 .record-type-container{
   display: flex;
 }
 
-.dev-container, .admin-container, .manager-container{
+.type-container{
   display: flex;
   width: 33%;
   margin: 1rem;
   padding: 0 0 .5rem;
   border-radius: 2px;
-  box-shadow: 0px 0px 5px #c2c2c2;
-}
-
-.dev-edition{
-  box-shadow: 0px 0px 5px #ebb800;
-}
-
-.admin-edition{
-  box-shadow: 0px 0px 5px #7e7b15;
-}
-
-.manager-edition{
-  box-shadow: 0px 0px 5px #07575b;
 }
 
 .comonent-todo{

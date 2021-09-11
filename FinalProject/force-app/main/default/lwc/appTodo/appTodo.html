@@ -21,14 +21,14 @@
               slds-p-around_medium" id="modal-content-id-1">
               <!-- record type -->
               <lightning-combobox name="recordType"
-                label="Record type"
+                label="Type"
                 placeholder="Choose Todo record type"
                 value={value} options={recordTypeId} 
                 onchange={changeHandler}>
               </lightning-combobox>
               <!-- end record type -->
               <!-- create todo -->
-              <lightning-record-form 
+              <lightning-record-form
               object-api-name={objectApiName} 
               fields={fields} 
               record-type-id={recordTypeIdVal}
@@ -56,22 +56,22 @@
     <div class="body-container">
       <!-- record type for developer -->
       <div class="body-title-container">
-        <p class="dev-name">Developer's todos</p>
-        <p class="admin-name">Admins's todos</p>
-        <p class="manager-name">Manager's todos</p>
+        <p class="app-container-name">Developer's todos</p>
+        <p class="app-container-name">Admins's todos</p>
+        <p class="app-container-name">Manager's todos</p>
       </div>
       <div class="record-type-container">
-        <div class="dev-container dev-edition">
+        <div class="type-container">
           <c-list-todo class="comonent-todo" recordtype={recordTypeDev}> 
           </c-list-todo>
         </div>
         <!-- record type for admin -->
-        <div class="admin-container admin-edition">
+        <div class="type-container">
           <c-list-todo class="comonent-todo" recordtype={recordTypeAdmin}>
           </c-list-todo>
         </div>
         <!-- record type for manager -->
-        <div class="manager-container manager-edition">
+        <div class="type-container">
           <c-list-todo class="comonent-todo" recordtype={recordTypeManeger}>
           </c-list-todo>
         </div>
