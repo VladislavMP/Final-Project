@@ -2,14 +2,14 @@
 private with sharing class RestClientSubToDoTest {
     
     @IsTest
-    static void createSubToDoTest() {
+    static void sendCreateSubToDoRequestTest() {
         Sub_ToDo__c subToDo = RestClientSubToDoTest.createTestSubToDo('TestName', 'a005g0000305ICGAA2', true);
         List<Id> subToDoIds = new List<Id>{subToDo.Id};
         String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => '0012w00000L74CqAAJ'});
 
         Test.setMock(HttpCalloutMock.class, new RestClientSubToDoMock(responceBody));            
 		Test.startTest();
-        RestClientSubToDo.createSubToDo(subToDoIds);
+        RestClientSubToDo.sendCreateSubToDoRequest(subToDoIds);
         Test.stopTest();
 
         subToDo = [SELECT External_Id__c FROM Sub_ToDo__c WHERE Id =: subToDo.Id];
@@ -18,7 +18,7 @@ private with sharing class RestClientSubToDoTest {
     }
     
     @IsTest
-    static void deleteSubToDoTest() {
+    static void sendDeleteSubToDoRequestTest() {
         Sub_ToDo__c subToDo = RestClientSubToDoTest.createTestSubToDo('TestName', 'a005g0000305ICGAA2', true);
         List<Id> subToDoIds = new List<Id>{subToDo.Id};
         Boolean testTry = true;
@@ -27,7 +27,7 @@ private with sharing class RestClientSubToDoTest {
         Test.setMock(HttpCalloutMock.class, new RestClientSubToDoMock(responceBody));            
 		Test.startTest();
         try{
-            RestClientSubToDo.deleteSubToDo(subToDoIds);
+            RestClientSubToDo.sendDeleteSubToDoRequest(subToDoIds);
         }
         catch(Exception e){
             testTry = false;
@@ -38,14 +38,14 @@ private with sharing class RestClientSubToDoTest {
     }
     
     @IsTest
-    static void updateSubToDoTest() {
+    static void sendUpdateSubToDoRequestTest() {
         Sub_ToDo__c subToDo = RestClientSubToDoTest.createTestSubToDo('TestName', 'a005g0000305ICGAA2', true);
         List<Id> subToDoIds = new List<Id>{subToDo.Id};
         String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => '0012w00000L74CqAAJ'});
 
         Test.setMock(HttpCalloutMock.class, new RestClientSubToDoMock(responceBody));            
 		Test.startTest();
-        RestClientSubToDo.updateSubToDo(subToDoIds);
+        RestClientSubToDo.sendUpdateSubToDoRequest(subToDoIds);
         Test.stopTest();
 
         subToDo = [SELECT Id, External_Id__c FROM Sub_ToDo__c WHERE Id =: subToDo.Id];

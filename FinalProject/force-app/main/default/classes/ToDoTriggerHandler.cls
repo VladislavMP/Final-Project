@@ -16,7 +16,7 @@ public with sharing class ToDoTriggerHandler {
     public static void handleAfterInsert(List<ToDo__c> newList, Map<Id, ToDo__c> newMap){
         if(!disableIntegrationInTriggerFlag){
             List<Id> toDoIds = ToDoTriggerHelper.getIdList(newList);
-            RestClientToDo.createToDo(toDoIds);
+            RestClientToDo.sendCreateToDoRequest(toDoIds);
         } else {
             disableIntegrationInTriggerFlag = false;
         }
@@ -25,7 +25,7 @@ public with sharing class ToDoTriggerHandler {
     public static void handleAfterUpdate(List<ToDo__c> newList, Map<Id, ToDo__c> newMap, List<ToDo__c> oldList, Map<Id, ToDo__c> oldMap){
         if(!disableIntegrationInTriggerFlag){
             List<Id> toDoIds = ToDoTriggerHelper.getIdList(newList);
-            RestClientToDo.updateToDo(toDoIds);
+            RestClientToDo.sendUpdateToDoRequest(toDoIds);
         } else {
             disableIntegrationInTriggerFlag = false;
         }
@@ -34,7 +34,7 @@ public with sharing class ToDoTriggerHandler {
     public static void handleAfterDelete(List<ToDo__c> oldList, Map<Id, ToDo__c> oldMap){
         if(!disableIntegrationInTriggerFlag){
             List<Id> toDoIds = ToDoTriggerHelper.getExternalIdList(oldList);
-            RestClientToDo.deleteToDo(toDoIds);
+            RestClientToDo.sendDeleteToDoRequest(toDoIds);
         } else {
             disableIntegrationInTriggerFlag = false;
         }

@@ -1,9 +1,9 @@
 public with sharing class RestClientToDo {
 
     @future(callout=true)
-    public static void createToDo(List<Id> ids) {
+    public static void sendCreateToDoRequest(List<Id> ids) {
         List<ToDo__c> toDos = [
-            SELECT Id, Project_Name__c, Name, RecordTypeId, External_Id__c
+            SELECT Id, Project_Name__c, Name, RecordTypeId, External_Id__c, Status__c
             FROM ToDo__c 
             WHERE Id =: ids
         ];
@@ -24,7 +24,7 @@ public with sharing class RestClientToDo {
     }
 
     @future(callout=true)
-    public static void deleteToDo(List<Id> extertalIds) {
+    public static void sendDeleteToDoRequest(List<Id> extertalIds) {
         
         Http httpConnection = new Http();
         HttpRequest request = RestClientToDoHelper.createRequest(extertalIds, 'DELETE');
@@ -32,10 +32,12 @@ public with sharing class RestClientToDo {
     } 
     
     @future(callout=true)
-    public static void updateToDo(List<Id> ids) {
-        List<ToDo__c> toDos = [SELECT Id, Project_Name__c, RecordTypeId, Name, External_Id__c
+    public static void sendUpdateToDoRequest(List<Id> ids) {
+        List<ToDo__c> toDos = [
+            SELECT Id, Project_Name__c, RecordTypeId, Name, External_Id__c, Status__c
             FROM ToDo__c 
-            WHERE Id =: ids];
+            WHERE Id =: ids
+        ];
         List<ToDoWrapper> wrappers = RestClientToDoHelper.wrapToDos(toDos);
        
         Http httpConnection = new Http();

@@ -16,7 +16,7 @@ public with sharing class SubToDoTriggerHandler{
     public static void handleAfterInsert(List<Sub_ToDo__c> newList, Map<Id, Sub_ToDo__c> newMap){
         if(!disableIntegrationInTriggerFlag){
             List<Id> subToDoIds = SubToDoTriggerHelper.getIdList(newList);
-            RestClientSubToDo.createSubToDo(subToDoIds);
+            RestClientSubToDo.sendCreateSubToDoRequest(subToDoIds);
         } else {
             disableIntegrationInTriggerFlag = false;
         }
@@ -25,7 +25,7 @@ public with sharing class SubToDoTriggerHandler{
     public static void handleAfterUpdate(List<Sub_ToDo__c> newList, Map<Id, Sub_ToDo__c> newMap, List<Sub_ToDo__c> oldList, Map<Id, Sub_ToDo__c> oldMap){
         if(!disableIntegrationInTriggerFlag){
             List<Id> subToDoIds = SubToDoTriggerHelper.getIdList(newList);
-            RestClientSubToDo.updateSubToDo(subToDoIds);
+            RestClientSubToDo.sendUpdateSubToDoRequest(subToDoIds);
         } else {
             disableIntegrationInTriggerFlag = false;
         }
@@ -34,7 +34,7 @@ public with sharing class SubToDoTriggerHandler{
     public static void handleAfterDelete(List<Sub_ToDo__c> oldList, Map<Id, Sub_ToDo__c> oldMap){
         if(!disableIntegrationInTriggerFlag){
             List<Id> subToDoIds = SubToDoTriggerHelper.getExternalIdList(oldList);
-            RestClientSubToDo.deleteSubToDo(subToDoIds);
+            RestClientSubToDo.sendDeleteSubToDoRequest(subToDoIds);
         } else {
             disableIntegrationInTriggerFlag = false;
         }

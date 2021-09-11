@@ -2,14 +2,14 @@
 private with sharing class RestClientToDoTest {
     
     @IsTest
-    static void createToDoTest() {
+    static void sendCreateToDoRequestTest() {
         ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
         List<Id> toDoIds = new List<Id>{toDo.Id};
         String responceBody = JSON.serialize(new Map<String, String>{toDo.Id => '0012w00000L74CqAAJ'});
 
         Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody));            
 		Test.startTest();
-        RestClientToDo.createToDo(toDoIds);
+        RestClientToDo.sendCreateToDoRequest(toDoIds);
         Test.stopTest();
 
         toDo = [SELECT External_Id__c FROM ToDo__c WHERE Id =: toDo.Id];
@@ -18,7 +18,7 @@ private with sharing class RestClientToDoTest {
     }
     
     @IsTest
-    static void deleteToDoTest() {
+    static void sendDeleteToDoRequestTest() {
         ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
         List<Id> toDoIds = new List<Id>{toDo.Id};
         Boolean testTry = true;
@@ -26,7 +26,7 @@ private with sharing class RestClientToDoTest {
         Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody)); 
         Test.startTest();
         try{
-            RestClientToDo.deleteToDo(toDoIds);
+            RestClientToDo.sendDeleteToDoRequest(toDoIds);
         }
         catch(Exception e){
             testTry = false;
@@ -36,14 +36,14 @@ private with sharing class RestClientToDoTest {
     }
     
     @IsTest
-    static void updateToDoTest() {
+    static void sendUpdateToDoRequestTest() {
         ToDo__c toDo = RestClientToDoTest.createTestToDo('TestName', true);
         List<Id> toDoIds = new List<Id>{toDo.Id};
         String responceBody = JSON.serialize(new Map<String, String>{toDo.Id => '0012w00000L74CqAAJ'});
 
         Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody)); 
 		Test.startTest();
-        RestClientToDo.updateToDo(toDoIds);
+        RestClientToDo.sendUpdateToDoRequest(toDoIds);
         Test.stopTest();
 
         toDo = [SELECT Id, External_Id__c FROM ToDo__c WHERE Id =: toDo.Id];
@@ -53,7 +53,10 @@ private with sharing class RestClientToDoTest {
 
     static ToDo__c createTestToDo(String name, Boolean needInsert){
         ToDo__c toDo = new ToDo__c(Name = name);
-        If (needInsert) insert toDo;
+        If (needInsert) {
+            ToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
+            insert toDo;
+        }
         return toDo;
     }
 }

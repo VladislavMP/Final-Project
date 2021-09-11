@@ -1,7 +1,7 @@
 public with sharing class RestClientSubToDo {
 
     @future(callout=true)
-    public static void createSubToDo(List<Id> ids) {
+    public static void sendCreateSubToDoRequest(List<Id> ids) {
         List<Sub_ToDo__c> subToDos = [
             SELECT Id, Name, External_Id__c, ToDo__c, ToDo__r.External_Id__c, Status__c
             FROM Sub_ToDo__c 
@@ -25,7 +25,7 @@ public with sharing class RestClientSubToDo {
     }
 
     @future(callout=true)
-    public static void deleteSubToDo(List<Id> extertalIds) {
+    public static void sendDeleteSubToDoRequest(List<Id> extertalIds) {
         
         Http httpConnection = new Http();
         HttpRequest request = RestClientSubToDoHelper.createRequest(extertalIds, 'DELETE');
@@ -33,7 +33,7 @@ public with sharing class RestClientSubToDo {
     } 
     
     @future(callout=true)
-    public static void updateSubToDo(List<Id> ids) {
+    public static void sendUpdateSubToDoRequest(List<Id> ids) {
         List<Sub_ToDo__c> subToDos = [
             SELECT Id, Name, External_Id__c, ToDo__c, ToDo__r.External_Id__c, Status__c
             FROM Sub_ToDo__c 
