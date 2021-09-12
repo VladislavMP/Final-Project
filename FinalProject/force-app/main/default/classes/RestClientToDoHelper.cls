@@ -25,8 +25,7 @@ public with sharing class RestClientToDoHelper {
     public static List<ToDoWrapper> wrapToDos(List<ToDo__c> toDos){
         List<ToDoWrapper> wrappers = new List<ToDoWrapper>();
         for(ToDo__c todo : toDos){
-        	String recordTypeName = Schema.SObjectType.ToDo__c.
-                getRecordTypeInfosById().get(toDo.RecordTypeId).getName();
+        	String recordTypeName = Schema.SObjectType.ToDo__c.getRecordTypeInfosById().get(toDo.RecordTypeId).getName();
         	wrappers.add(new ToDoWrapper(toDo, recordTypeName));
         }
         return wrappers;

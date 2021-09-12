@@ -20,7 +20,7 @@ global with sharing class RestServiceToDo {
         RestRequest request = RestContext.request;
         List<String> toDosIds = (List<String>) 
             JSON.deserialize(request.requestBody.toString(), List<String>.class);
-        
+
         List<ToDo__c> toDos = [SELECT Id 
             FROM ToDo__c 
             WHERE Id = :toDosIds

@@ -1,8 +1,7 @@
 public with sharing class RestServiceToDoHelper {
 
     public static Id getRecordTypeId(String recordTypeName){
-        Id recordTypeId = Schema.SObjectType.ToDo__c.
-            getRecordTypeInfosByName().get(recordTypeName).getRecordTypeId();
+        Id recordTypeId = Schema.SObjectType.ToDo__c.getRecordTypeInfosByName().get(recordTypeName).getRecordTypeId();
         return recordTypeId;
     } 
     

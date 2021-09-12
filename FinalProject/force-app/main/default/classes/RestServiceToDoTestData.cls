@@ -16,8 +16,8 @@ public with sharing class RestServiceToDoTestData {
         return jsonBody;
     }
 
-    public static String createJsonBody(Id Id){
-        String jsonBody = JSON.serialize(new List<Id>{Id});
+    public static String createJsonBody(String Id){
+        String jsonBody = JSON.serialize(new List<String>{Id});
 
         return jsonBody;
     }
@@ -32,4 +32,3 @@ public with sharing class RestServiceToDoTestData {
         return request;
     }
 }
-
