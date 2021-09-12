@@ -38,7 +38,7 @@
                 <!-- end sub-todo -->
                 <!-- <hr/> -->
                 <div class="slds-text-align_center">
-                  <lightning-button variant="base" label="Add new" title="create new sub-todo" data-keyid={toDo.Id} data-keyname={toDo.Name} onclick={addNewSubTodo} class="slds-m-left_x-small"></lightning-button>
+                  <lightning-button variant="base" label="Add new" title="create" data-keyid={toDo.Id} data-keyname={toDo.Name} onclick={addNewSubTodo} class="slds-m-left_x-small"></lightning-button>
                 </div>
               </div>
             </section>
@@ -102,7 +102,7 @@
                       <lightning-input class="slds-p-around_medium add-sub-form" label="Name" name="subTodoName" 
                           onchange={nameChangedHandler}></lightning-input>
                       <br/>
-                      <lightning-button class="slds-m-left_x-small btn-add" label="Create Sub-Todo" variant="brand" 
+                      <lightning-button class="slds-m-left_x-small btn-add" label="Create" variant="brand" 
                           onclick={createSubTodo}></lightning-button>
                   </lightning-layout-item>
               </lightning-layout>
