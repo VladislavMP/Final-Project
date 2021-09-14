@@ -1,7 +1,7 @@
 public class QueueTriggerHandlerHelper {
 	public static void assignmentQueue(List<ToDo__c> todos) {
         List<Group> queues = [SELECT id, name FROM Group WHERE Type = 'Queue'];
-        List<RecordType> recTypes = [SELECT Id, Name FROM RecordType LIMIT 3];
+        
 
         for(ToDo__c todo : todos) {
             string recordtypeName =
