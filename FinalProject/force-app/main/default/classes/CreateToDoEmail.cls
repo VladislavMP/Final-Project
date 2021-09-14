@@ -1,14 +1,19 @@
 public class CreateToDoEmail {
-     public static void TodoInsert(List<Case> cases) { 
+     public static void todoInsert(List<Case> cases) { 
              List<ToDo__c> todos = new List<ToDo__c>();
-             List<ToDo__c> Taske =[SELECT  RecordTypeId FROM ToDo__c];
-             List<Id> Ids = new List<Id>();
-             for(ToDo__c y: Taske){
-                    Ids.add( y.RecordTypeId);}
+             List<ToDo__c> Taske =[SELECT  RecordTypeId FROM ToDo__c Limit 1];
+             
+            
               
-            for (Case cs : cases) {
+             for (Case cs : cases) {
                 if (cs.Origin == 'Email') {
-                    ToDo__c todo = new ToDo__c(
-                        Name = cs.Subject);
+                    for(ToDo__c y: Taske){
+                        string recordtypeName = Schema.SObjectType.ToDo__c.getRecordTypeInfosById().get(y.RecordTypeId).getname();
+                        ToDo__c todo = new ToDo__c(
+                        Name = cs.Subject,
+                        RecordTypeId = y.RecordTypeId);
                     todos.add(todo);}}
-            insert todos;}}
+            }Insert todos;}
+
+            
+            }
