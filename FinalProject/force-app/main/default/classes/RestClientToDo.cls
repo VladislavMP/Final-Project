@@ -1,23 +1,16 @@
 public with sharing class RestClientToDo {
 
+    private static final String SOBJECTURL = 'ToDo__c/';
+
     @future(callout=true)
     public static void sendCreateToDoRequest(List<Id> ids) {
-        List<ToDo__c> toDos = [
-            SELECT Id, Project_Name__c, Name, RecordTypeId, External_Id__c, Status__c
-            FROM ToDo__c 
-            WHERE Id =: ids
-        ];
+        List<ToDo__c> toDos = ToDoSoql.getToDosById(ids);
+        
         List<ToDoWrapper> wrappers = RestClientToDoHelper.wrapToDos(toDos);
-        
-        Http httpConnection = new Http();
-        HttpRequest request = RestClientToDoHelper.createRequest(wrappers, 'POST');
-        HttpResponse response = httpConnection.send(request);
-        
-        Map<String, String> externalIdsMap  = (Map<String, String>) 
-            JSON.deserialize(response.getBody(), Map<String, String>.class);
-        for(ToDo__c todo : toDos){
-        	toDo.External_Id__c = externalIdsMap.get(toDo.Id);
-        }
+        String jsonBody = JSON.serialize(wrappers);
+
+        HttpResponse response = RestClient.sendRequest(jsonBody, 'POST', SOBJECTURL);
+        toDos = RestClientToDoHelper.parcingResponce(toDos, response);
 
         ToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         update toDos;
@@ -26,29 +19,20 @@ public with sharing class RestClientToDo {
     @future(callout=true)
     public static void sendDeleteToDoRequest(List<Id> extertalIds) {
         
-        Http httpConnection = new Http();
-        HttpRequest request = RestClientToDoHelper.createRequest(extertalIds, 'DELETE');
-        HttpResponse response = httpConnection.send(request);
+        String jsonBody = JSON.serialize(extertalIds);
+        HttpResponse response = RestClient.sendRequest(jsonBody, 'DELETE', SOBJECTURL);
     } 
     
     @future(callout=true)
     public static void sendUpdateToDoRequest(List<Id> ids) {
-        List<ToDo__c> toDos = [
-            SELECT Id, Project_Name__c, RecordTypeId, Name, External_Id__c, Status__c
-            FROM ToDo__c 
-            WHERE Id =: ids
-        ];
+
+        List<ToDo__c> toDos = ToDoSoql.getToDosById(ids);
+
         List<ToDoWrapper> wrappers = RestClientToDoHelper.wrapToDos(toDos);
+        String jsonBody = JSON.serialize(wrappers);
        
-        Http httpConnection = new Http();
-        HttpRequest request = RestClientToDoHelper.createRequest(wrappers, 'PATCH');
-        HttpResponse response = httpConnection.send(request);
-        
-        Map<String, String> externalIdsMap  = (Map<String, String>) 
-            JSON.deserialize(response.getBody(), Map<String, String>.class);
-        for(ToDo__c todo : toDos){
-        	toDo.External_Id__c = externalIdsMap.get(toDo.Id);
-        }
+        HttpResponse response = RestClient.sendRequest(jsonBody, 'PATCH', SOBJECTURL);
+        toDos = RestClientToDoHelper.parcingResponce(toDos, response);
 
         ToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         update toDos;
