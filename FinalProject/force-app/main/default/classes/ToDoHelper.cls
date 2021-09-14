@@ -1,5 +1,4 @@
-public with sharing class ToDoTriggerHelper {
-
+public with sharing class ToDoHelper {
     public static List<Id> getIdList(List<ToDo__c> toDoList){
         List<Id> toDoIdList = new List<Id>();
         for(ToDo__c toDo : toDoList){
