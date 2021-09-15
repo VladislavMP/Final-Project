@@ -1,0 +1,151 @@
+<template>
+  <lightning-card class="card-container">
+    <template if:true={listTodo.data}>
+      <template for:each={devTodos} for:item="toDo">
+        <div class="slds-card item-card-container" key={toDo.Id}>
+        <ul class="slds-accordion" >
+          <li class="slds-accordion__list-item">
+            <section id={toDo.Id} class="slds-accordion__section slds-m-left_medium slds-m-right_small">
+              <div class="slds-accordion__summary">
+                <h2 class="slds-accordion__summary-heading">
+                  <button class="slds-button slds-button_reset slds-accordion__summary-action todo-name" aria-controls="referenceId-21" aria-expanded="true" title="Accordion summary" 
+                  onclick={openAccordion}
+                  >
+                  {toDo.Name}
+                  <img class="btn-arrow" src="https://cdn-icons-png.flaticon.com/512/32/32195.png" width="15"/>
+                  </button>
+                </h2>
+              </div>
+              <!-- sub-todo -->
+              <div class="slds-accordion__content">
+                <template if:true={toDo.Sub_ToDos__r}>
+                  <template for:each={toDo.Sub_ToDos__r} for:item="subtoDo">
+                    <div class="accordion-content-my" key={subtoDo.Id}>
+                      <p class="accordion-content-name">{subtoDo.Name}</p>
+                      <p class="accordion-content-done"><span>Status: </span>{subtoDo.Status__c}</p>
+                      <lightning-button class="button-custom" variant="base" icon-name="utility:edit" 
+                                            onclick={editRecord}
+                                            data-recordid={subtoDo.Id}>
+                      </lightning-button>
+                      <lightning-button class="button-custom" variant="base" icon-name="utility:delete" 
+                                            onclick={deleteRecord}
+                                            data-recordid={subtoDo.Id}>
+                      </lightning-button>
+                    </div>
+                  </template>
+                </template>
+                <!-- end sub-todo -->
+                <!-- <hr/> -->
+                <div class="slds-text-align_center">
+                  <lightning-button variant="base" label="Add new" title="create" data-keyid={toDo.Id} data-keyname={toDo.Name} onclick={addNewSubTodo} class="slds-m-left_x-small"></lightning-button>
+                </div>
+              </div>
+            </section>
+          </li>
+        </ul>
+        <hr/>
+        <div class="list-btn-todo">
+          <lightning-button label="Edit" variant="base" data-recordid={toDo.Id} onclick={editRecordTodo} class="slds-m-left_x-small"></lightning-button>
+          <lightning-button label="Delete" variant="base" data-recordid={toDo.Id} onclick={deleteRecord} class="slds-m-left_x-small"></lightning-button>
+        </div>
+        </div>
+      </template>
+    </template>
+
+    <!-- edit record todo-->
+    <template if:true={modalWindowEditTodo}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <!-- header -->
+          <header class="slds-modal__header">
+            <button class="slds-button slds-modal__close slds-button_inverse slds-m-right_x-small" title="Close" onclick={closeWindowEditTodo}>
+              X
+            </button>
+            <h2 class="slds-modal__title slds-hyphenate">Edit name</h2>
+          </header>
+          <!-- body -->
+          <div class="slds-modal__content slds-p-around_medium">
+            <lightning-record-form object-api-name={objectApiNameTodo} 
+                                        record-id={recordId} 
+                                        fields={fieldsTodo}
+                                        onsuccess={handleSuccessEdit}>
+            </lightning-record-form>
+              </div>
+          </div>
+          <!-- footer modal window-->
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={closeWindowEditTodo}>Close</button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- end edit todo-->
+    
+    <!-- add new sub-todo -->
+    <template if:true={modalWindowAdd}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <!-- header -->
+          <header class="slds-modal__header">
+            <button class="slds-button slds-modal__close slds-button_inverse slds-m-right_x-small" title="Close" onclick={closeWindowAdd}>
+              X
+            </button>
+            <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate">Add Sub-Todo</h2>
+          </header>
+          <!-- body -->
+          <lightning-card>
+              <lightning-layout>
+                  <lightning-layout-item size="6" class="layout-item-container">
+                      <!-- Displaying fields to get information. -->
+                      <lightning-input class="slds-p-around_medium add-sub-form" label="Name" name="subTodoName" 
+                          onchange={nameChangedHandler}></lightning-input>
+                      <br/>
+                      <lightning-button class="slds-m-left_x-small btn-add" label="Create" variant="brand" 
+                          onclick={createSubTodo}></lightning-button>
+                  </lightning-layout-item>
+              </lightning-layout>
+          </lightning-card>
+          <!-- footer modal add sub-todo-->
+          <footer class="slds-modal__footer my-modal-footer">
+            <button class="slds-button slds-button_neutral" onclick={closeWindowAdd}>Close</button>
+          </footer>
+          <!-- end footer add sub-todo-->
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+     <!-- end modal window add sub-todo-->
+     
+    <!-- edit record -->
+    <template if:true={modalWindowEdit}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <!-- header -->
+          <header class="slds-modal__header">
+            <button class="slds-button slds-modal__close slds-button_inverse slds-m-right_x-small" title="Close" onclick={closeWindowEdit}>
+              X
+            </button>
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit Todo</h2>
+          </header>
+          <!-- body -->
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-record-form object-api-name={objectApiName} 
+                                        record-id={recordId} 
+                                        fields={fields}
+                                        onsuccess={handleSuccessEdit}>
+            </lightning-record-form>
+              </div>
+          </div>
+          <!-- footer modal window-->
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={closeWindowEdit}>Close</button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- end edit -->
+
+  </lightning-card>
+</template>

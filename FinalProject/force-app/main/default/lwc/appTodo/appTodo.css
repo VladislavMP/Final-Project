@@ -1,0 +1,54 @@
+.headr-container{
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.headr-container > p {
+  font-size: 1.2rem;
+}
+
+.headr-container > p > span{
+  font-weight: bold;
+  color: rgb(0 87 178);
+}
+
+.slds-card > hr{
+  width: 80%;
+  margin: 1rem auto 2rem;
+}
+
+.body-title-container{
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 3.5rem;
+}
+
+.body-title-container > p{
+  flex: 1;
+}
+
+.app-container-name{
+  color: #1E63B3;
+}
+
+.record-type-container{
+  display: flex;
+}
+
+.type-container{
+  display: flex;
+  width: 33%;
+  margin: 1rem;
+  padding: 0 0 .5rem;
+  border-radius: 2px;
+}
+
+.comonent-todo{
+  width: 100%;
+}
