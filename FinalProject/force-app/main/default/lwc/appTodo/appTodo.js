@@ -16,11 +16,11 @@ export default class AppTodo extends LightningElement {
   }
 
   @api
-  recordTypeDev =  'developers_todo';
+  recordTypeToday =  'today'; 
   @api
-  recordTypeAdmin = 'admins_todo';
+  recordTypeTomorrow = 'tomorrow'; 
   @api
-  recordTypeManeger = 'managers_todo'
+  recordTypeLater = 'later'; 
   @wire(getTodoList)
   listTodo
   

@@ -6,7 +6,7 @@ import getTodoList from '@salesforce/apex/TodoQuery.getTodoList';
 import SUB_TODO_OBJECT from '@salesforce/schema/Sub_ToDo__c';
 import TODO_OBJECT from '@salesforce/schema/ToDo__c';
 import NAME_SUB_FIELD from '@salesforce/schema/Sub_ToDo__c.Name';
-import IS_DONE_SUB_FIELD from '@salesforce/schema/Sub_ToDo__c.Is_done__c'
+import STATUS_SUB_FIELD from '@salesforce/schema/Sub_ToDo__c.Status__c'
 import NAME_TODO_FIELD from '@salesforce/schema/ToDo__c.Name';
 
 export default class ListTodo extends LightningElement {
@@ -24,7 +24,7 @@ export default class ListTodo extends LightningElement {
   @api objectApiNameTodo = TODO_OBJECT;
   @api objectApiName = SUB_TODO_OBJECT;
   fieldsTodo = [NAME_TODO_FIELD];
-  fields = [NAME_SUB_FIELD, IS_DONE_SUB_FIELD];
+  fields = [NAME_SUB_FIELD, STATUS_SUB_FIELD];
 
   modalWindowAdd = false
   modalWindowEditTodo = false;
@@ -62,16 +62,12 @@ export default class ListTodo extends LightningElement {
     this.strName = event.target.value;
   }
 
-  isDoneChangedHandler(event){
-    this.strIsDone = event.target.value;
-  }
-
   createSubTodo(){
     let fields = {};
     fields[NAME_SUB_FIELD.fieldApiName] = this.strName;
     fields['ToDo__c'] = this.recordTodoId;
     let objRecordInput = {apiName : SUB_TODO_OBJECT.objectApiName, fields};
-
+    this.modalWindowAdd = false;
     createRecord(objRecordInput).then(response => {
       this.dispatchEvent(
         new ShowToastEvent({

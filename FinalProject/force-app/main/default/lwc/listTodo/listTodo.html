@@ -22,8 +22,7 @@
                   <template for:each={toDo.Sub_ToDos__r} for:item="subtoDo">
                     <div class="accordion-content-my" key={subtoDo.Id}>
                       <p class="accordion-content-name">{subtoDo.Name}</p>
-                      <p class="accordion-content-done"><span>is done: </span>{subtoDo.Is_done__c}</p>
-                      <p class="accordion-content-data">is created: {subtoDo.Data__c}</p>
+                      <p class="accordion-content-done"><span>Status: </span>{subtoDo.Status__c}</p>
                       <lightning-button class="button-custom" variant="base" icon-name="utility:edit" 
                                             onclick={editRecord}
                                             data-recordid={subtoDo.Id}>
