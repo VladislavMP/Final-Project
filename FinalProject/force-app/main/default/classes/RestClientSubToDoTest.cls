@@ -1,11 +1,25 @@
 @IsTest
 private with sharing class RestClientSubToDoTest {
     
+    private static final String EXTERNAL_ID = '0012w00000L74CqAAJ';
+
+    @testSetup
+    static void setup() {
+
+        ToDo__c toDo = new ToDo__c(Name = 'Test ToDo');
+        ToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
+        insert toDo;
+
+        Sub_ToDo__c subToDo = new Sub_ToDo__c(Name = 'Test SubToDo', ToDo__c = toDo.Id);
+        SubToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
+        insert subToDo;
+    }
+
     @IsTest
     static void sendCreateSubToDoRequestTest() {
-        Sub_ToDo__c subToDo = RestClientSubToDoTest.createTestSubToDo('TestName', 'a005g0000305ICGAA2', true);
+        Sub_ToDo__c subToDo = [SELECT Id FROM Sub_ToDo__c LIMIT 1];
         List<Id> subToDoIds = new List<Id>{subToDo.Id};
-        String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => '0012w00000L74CqAAJ'});
+        String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => EXTERNAL_ID});
 
         Test.setMock(HttpCalloutMock.class, new RestClientSubToDoMock(responceBody));            
 		Test.startTest();
@@ -14,34 +28,28 @@ private with sharing class RestClientSubToDoTest {
 
         subToDo = [SELECT External_Id__c FROM Sub_ToDo__c WHERE Id =: subToDo.Id];
         Id externalId = subToDo.External_Id__c;
-        System.assertEquals('0012w00000L74CqAAJ', externalId);
+        System.assertEquals(EXTERNAL_ID, externalId);
     }
     
     @IsTest
     static void sendDeleteSubToDoRequestTest() {
-        Sub_ToDo__c subToDo = RestClientSubToDoTest.createTestSubToDo('TestName', 'a005g0000305ICGAA2', true);
+        Sub_ToDo__c subToDo = [SELECT Id FROM Sub_ToDo__c LIMIT 1];
         List<Id> subToDoIds = new List<Id>{subToDo.Id};
         Boolean testTry = true;
-        String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => '0012w00000L74CqAAJ'});
+        String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => EXTERNAL_ID});
 
         Test.setMock(HttpCalloutMock.class, new RestClientSubToDoMock(responceBody));            
 		Test.startTest();
-        try{
-            RestClientSubToDo.sendDeleteSubToDoRequest(subToDoIds);
-        }
-        catch(Exception e){
-            testTry = false;
-        }
+        RestClientSubToDo.sendDeleteSubToDoRequest(subToDoIds);
         Test.stopTest();
 
-        System.assertEquals(true, testTry);
     }
     
     @IsTest
     static void sendUpdateSubToDoRequestTest() {
-        Sub_ToDo__c subToDo = RestClientSubToDoTest.createTestSubToDo('TestName', 'a005g0000305ICGAA2', true);
+        Sub_ToDo__c subToDo = [SELECT Id FROM Sub_ToDo__c LIMIT 1];
         List<Id> subToDoIds = new List<Id>{subToDo.Id};
-        String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => '0012w00000L74CqAAJ'});
+        String responceBody = JSON.serialize(new Map<String, String>{subToDo.Id => EXTERNAL_ID});
 
         Test.setMock(HttpCalloutMock.class, new RestClientSubToDoMock(responceBody));            
 		Test.startTest();
@@ -50,12 +58,7 @@ private with sharing class RestClientSubToDoTest {
 
         subToDo = [SELECT Id, External_Id__c FROM Sub_ToDo__c WHERE Id =: subToDo.Id];
         Id externalId = subToDo.External_Id__c;
-        System.assertEquals('0012w00000L74CqAAJ', externalId);
+        System.assertEquals(EXTERNAL_ID, externalId);
     }
 
-    static Sub_ToDo__c createTestSubToDo(String name, Id toDoId, Boolean needInsert){
-        Sub_ToDo__c subToDo = new Sub_ToDo__c(Name = name, ToDo__c = toDoId);
-        If (needInsert) insert subToDo;
-        return subToDo;
-    }
 }

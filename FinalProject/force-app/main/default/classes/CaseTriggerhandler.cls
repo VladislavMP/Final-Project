@@ -1,6 +1,6 @@
 public class CaseTriggerhandler {
  public static void handleBeforeInsert(List<Case> cases){
-        CreateToDoEmail.TodoInsert(cases);
+        CreateToDoEmail.todoInsert(cases);
     } 
      public static void handleBeforeUpdate(List<Case> oldList, List<Case> newList, Map<Id, Case> newMap, Map<Id, Case> oldMap) {
         // BEFORE UPDATE LOGIC
