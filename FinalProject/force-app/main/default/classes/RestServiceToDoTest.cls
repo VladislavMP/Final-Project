@@ -5,7 +5,7 @@ public with sharing class RestServiceToDoTest {
     public static void createRecordTest() {
 
         ToDo__c toDoTest = RestServiceToDoTestData.createTestToDo();
-        String jsonBody = RestServiceToDoTestData.createJsonBody(toDoTest, 'Admins Todo');
+        String jsonBody = RestServiceToDoTestData.createJsonBody(toDoTest, 'Today');
         RestRequest request = RestServiceToDoTestData.createTestRequest(
             jsonBody, 
             'POST', 
@@ -53,7 +53,7 @@ public with sharing class RestServiceToDoTest {
         ToDo__c toDoTest = RestServiceToDoTestData.createTestToDo();
         toDoTest.External_Id__c = toDoTest.Id;
         toDoTest.Name = 'Test todo 1';
-        String jsonBody = RestServiceToDoTestData.createJsonBody(toDoTest, 'Admins Todo');
+        String jsonBody = RestServiceToDoTestData.createJsonBody(toDoTest, 'Today');
         RestRequest request = RestServiceToDoTestData.createTestRequest(
             jsonBody, 
             'PATCH', 

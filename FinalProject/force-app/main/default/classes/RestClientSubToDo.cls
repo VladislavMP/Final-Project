@@ -1,24 +1,16 @@
 public with sharing class RestClientSubToDo {
 
+    private static final String SOBJECTURL = 'Sub_ToDo__c/';
+
     @future(callout=true)
     public static void sendCreateSubToDoRequest(List<Id> ids) {
-        List<Sub_ToDo__c> subToDos = [
-            SELECT Id, Name, External_Id__c, ToDo__c, ToDo__r.External_Id__c, Status__c
-            FROM Sub_ToDo__c 
-            WHERE Id =: ids
-        ];
+        List<Sub_ToDo__c> subToDos = SubToDoSoql.getSubToDosById(ids);
 
         List<Sub_ToDo__c> newSubToDos = RestClientSubToDoHelper.createRecordsForRequest(subToDos);
+        String jsonBody = JSON.serialize(newSubToDos);
 
-        Http httpConnection = new Http();
-        HttpRequest request = RestClientSubToDoHelper.createRequest(newSubToDos, 'POST');
-        HttpResponse response = httpConnection.send(request);
-        
-        Map<String, String> externalIdsMap  = (Map<String, String>) 
-            JSON.deserialize(response.getBody(), Map<String, String>.class);
-        for(Sub_ToDo__c subTodo : subToDos){
-        	subTodo.External_Id__c = externalIdsMap.get(subTodo.Id);
-        }
+        HttpResponse response = RestClient.sendRequest(jsonBody, 'POST', SOBJECTURL);
+        subToDos = RestClientSubToDoHelper.parcingResponce(subToDos, response);
 
         SubToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         update subToDos;
@@ -27,30 +19,19 @@ public with sharing class RestClientSubToDo {
     @future(callout=true)
     public static void sendDeleteSubToDoRequest(List<Id> extertalIds) {
         
-        Http httpConnection = new Http();
-        HttpRequest request = RestClientSubToDoHelper.createRequest(extertalIds, 'DELETE');
-        HttpResponse response = httpConnection.send(request);
+        String jsonBody = JSON.serialize(extertalIds);
+        HttpResponse response = RestClient.sendRequest(jsonBody, 'DELETE', SOBJECTURL);
     } 
     
     @future(callout=true)
     public static void sendUpdateSubToDoRequest(List<Id> ids) {
-        List<Sub_ToDo__c> subToDos = [
-            SELECT Id, Name, External_Id__c, ToDo__c, ToDo__r.External_Id__c, Status__c
-            FROM Sub_ToDo__c 
-            WHERE Id =: ids
-        ];
-       
-        List<Sub_ToDo__c> newSubToDos = RestClientSubToDoHelper.createRecordsForRequest(subToDos);
+        List<Sub_ToDo__c> subToDos = SubToDoSoql.getSubToDosById(ids);
 
-        Http httpConnection = new Http();
-        HttpRequest request = RestClientSubToDoHelper.createRequest(newSubToDos, 'PATCH');
-        HttpResponse response = httpConnection.send(request);
-        
-        Map<String, String> externalIdsMap  = (Map<String, String>) 
-            JSON.deserialize(response.getBody(), Map<String, String>.class);
-        for(Sub_ToDo__c subTodo : subToDos){
-            subTodo.External_Id__c = externalIdsMap.get(subTodo.Id);
-        }
+        List<Sub_ToDo__c> newSubToDos = RestClientSubToDoHelper.createRecordsForRequest(subToDos);
+        String jsonBody = JSON.serialize(newSubToDos);
+
+        HttpResponse response = RestClient.sendRequest(jsonBody, 'PATCH', SOBJECTURL);
+        subToDos = RestClientSubToDoHelper.parcingResponce(subToDos, response);
 
         SubToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         update subToDos;

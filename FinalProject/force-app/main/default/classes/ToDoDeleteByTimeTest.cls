@@ -34,7 +34,8 @@ private with sharing class ToDoDeleteByTimeTest {
         ToDoDeleteByTimeBatch batch = new ToDoDeleteByTimeBatch();
         Id batchId = Database.executeBatch(batch);
         Test.stopTest();
-
+        
+        System.assertNotEquals(batchId, null);
         System.assertEquals(3, [SELECT count() FROM ToDo__c]);
     }
 }
