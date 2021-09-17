@@ -8,6 +8,7 @@ global with sharing class RestServiceSubToDo {
             JSON.deserialize(request.requestBody.toString(), List<Sub_ToDo__c>.class);
         subToDos = RestServiceSubToDoHelper.swapIdAndExternalId(subToDos, true);
 
+
         SubToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         insert subToDos;
         

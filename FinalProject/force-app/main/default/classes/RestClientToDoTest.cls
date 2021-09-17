@@ -2,10 +2,11 @@
 private with sharing class RestClientToDoTest {
     
     private static final String EXTERNAL_ID = '0012w00000L74CqAAJ';
+    private static final String TEST_TODO_NAME = 'Test ToDo';
 
     @testSetup
     static void setup() {
-        ToDo__c toDo = new ToDo__c(Name = 'Test ToDo');
+        ToDo__c toDo = new ToDo__c(Name = TEST_TODO_NAME);
         ToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
 
         insert toDo;
@@ -31,18 +32,12 @@ private with sharing class RestClientToDoTest {
     static void sendDeleteToDoRequestTest() {
         ToDo__c toDo = [SELECT Id FROM ToDo__c LIMIT 1];
         List<Id> toDoIds = new List<Id>{toDo.Id};
-        Boolean testTry = true;
         String responceBody = JSON.serialize(new Map<String, String>{toDo.Id => EXTERNAL_ID});
+
         Test.setMock(HttpCalloutMock.class, new RestClientToDoMock(responceBody)); 
         Test.startTest();
-        try{
-            RestClientToDo.sendDeleteToDoRequest(toDoIds);
-        }
-        catch(Exception e){
-            testTry = false;
-        }
+        RestClientToDo.sendDeleteToDoRequest(toDoIds);
         Test.stopTest();
-        System.assertEquals(true, testTry);
     }
     
     @IsTest

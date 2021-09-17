@@ -4,12 +4,13 @@ public with sharing class RestServiceSubToDoTestData {
         Sub_ToDo__c subToDo = new Sub_ToDo__c(
             Name='Test subtodo', ToDo__c = toDo.Id
         );
+
         SubToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         insert subToDo;
         return subToDo;
     }         
 
-    public static String createJsonBody(Sub_ToDo__c subToDo){
+    public static String createJsonBody(Sub_ToDo__c subToDo) {
         String jsonBody = JSON.serialize(
             new List<Sub_ToDo__c>{subToDo});
 
@@ -22,7 +23,7 @@ public with sharing class RestServiceSubToDoTestData {
         return jsonBody;
     }
 
-    public static RestRequest createTestRequest(String jsonBody, String method, String requestUri){
+    public static RestRequest createTestRequest(String jsonBody, String method, String requestUri) {
         RestRequest request = new RestRequest();
         request.requestUri = requestUri;
         request.httpMethod = method;

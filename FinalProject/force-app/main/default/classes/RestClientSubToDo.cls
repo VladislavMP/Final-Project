@@ -17,8 +17,7 @@ public with sharing class RestClientSubToDo {
     }
 
     @future(callout=true)
-    public static void sendDeleteSubToDoRequest(List<Id> extertalIds) {
-        
+    public static void sendDeleteSubToDoRequest(List<Id> extertalIds) { 
         String jsonBody = JSON.serialize(extertalIds);
         HttpResponse response = RestClient.sendRequest(jsonBody, 'DELETE', SOBJECTURL);
     } 

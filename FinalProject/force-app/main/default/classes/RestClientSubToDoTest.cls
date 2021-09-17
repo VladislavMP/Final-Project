@@ -2,15 +2,17 @@
 private with sharing class RestClientSubToDoTest {
     
     private static final String EXTERNAL_ID = '0012w00000L74CqAAJ';
+    private static final String TEST_TODO_NAME = 'Test ToDo';
+    private static final String TEST_SUBTODO_NAME = 'Test SubToDo';
 
     @testSetup
     static void setup() {
-        ToDo__c toDo = new ToDo__c(Name = 'Test ToDo');
+        ToDo__c toDo = new ToDo__c(Name = TEST_TODO_NAME);
         
         ToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         insert toDo;
 
-        Sub_ToDo__c subToDo = new Sub_ToDo__c(Name = 'Test SubToDo', ToDo__c = toDo.Id);
+        Sub_ToDo__c subToDo = new Sub_ToDo__c(Name = TEST_SUBTODO_NAME, ToDo__c = toDo.Id);
 
         SubToDoTriggerHandler.disableIntegrationInTriggerFlag = true;
         insert subToDo;

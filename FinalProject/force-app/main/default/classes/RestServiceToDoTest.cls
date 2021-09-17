@@ -1,6 +1,9 @@
 @isTest
 public with sharing class RestServiceToDoTest {
 
+    private static final String ENDPOINT = 
+        'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/ToDo/';
+
     @isTest 
     public static void createRecordTest() {
 
@@ -9,7 +12,7 @@ public with sharing class RestServiceToDoTest {
         RestRequest request = RestServiceToDoTestData.createTestRequest(
             jsonBody, 
             'POST', 
-            'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/ToDo/'
+            ENDPOINT
         );
 
         RestContext.request = request;            
@@ -17,7 +20,8 @@ public with sharing class RestServiceToDoTest {
         Map <String, String> toDosIdsMap = RestServiceToDo.createRecord();
 
         Id toDoId = toDosIdsMap.get(toDoTest.Id);
-        ToDo__c toDo = [SELECT Name, External_Id__c, RecordTypeId
+        ToDo__c toDo = [
+            SELECT Name, External_Id__c, RecordTypeId
             FROM ToDo__c 
             WHERE Id =: toDoId
             LIMIT 1
@@ -36,7 +40,7 @@ public with sharing class RestServiceToDoTest {
         RestRequest request = RestServiceToDoTestData.createTestRequest(
             jsonBody, 
             'DELETE', 
-            'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/ToDo/'
+            ENDPOINT
         );
 
         RestContext.request = request;
@@ -57,7 +61,7 @@ public with sharing class RestServiceToDoTest {
         RestRequest request = RestServiceToDoTestData.createTestRequest(
             jsonBody, 
             'PATCH', 
-            'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/ToDo/'
+            ENDPOINT
         );
 
         RestContext.request = request; 
@@ -65,7 +69,8 @@ public with sharing class RestServiceToDoTest {
         Map <String, String> toDosIdsMap = RestServiceToDo.updateRecord();
 
         Id toDoId = toDosIdsMap.get(toDoTest.Id);
-        ToDo__c toDo = [SELECT Name, External_Id__c, RecordTypeId
+        ToDo__c toDo = [
+            SELECT Name, External_Id__c, RecordTypeId
             FROM ToDo__c 
             WHERE Id =: toDoId
             LIMIT 1
