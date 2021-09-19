@@ -15,6 +15,7 @@
                   <img class="btn-arrow" src="https://cdn-icons-png.flaticon.com/512/32/32195.png" width="15"/>
                   </button>
                 </h2>
+                <p class="type-owner-todo">{toDo.Owner.Type}</p>
               </div>
               <!-- sub-todo -->
               <div class="slds-accordion__content">
@@ -33,27 +34,27 @@
                       </lightning-button>
                     </div>
                   </template>
-                </template>
-                <!-- end sub-todo -->
-                <!-- <hr/> -->
-                <div class="slds-text-align_center">
-                  <lightning-button variant="base" label="Add new" title="create" data-keyid={toDo.Id} data-keyname={toDo.Name} onclick={addNewSubTodo} class="slds-m-left_x-small"></lightning-button>
-                </div>
-              </div>
-            </section>
-          </li>
-        </ul>
-        <hr/>
-        <div class="list-btn-todo">
-          <lightning-button label="Edit" variant="base" data-recordid={toDo.Id} onclick={editRecordTodo} class="slds-m-left_x-small"></lightning-button>
-          <lightning-button label="Delete" variant="base" data-recordid={toDo.Id} onclick={deleteRecord} class="slds-m-left_x-small"></lightning-button>
-        </div>
-        </div>
-      </template>
-    </template>
+</template>
+<!-- end sub-todo -->
+<!-- <hr/> -->
+<div class="slds-text-align_center">
+    <lightning-button variant="base" label="Add new" title="create" data-keyid={toDo.Id} data-keyname={toDo.Name} onclick={addNewSubTodo} class="slds-m-left_x-small"></lightning-button>
+</div>
+</div>
+</section>
+</li>
+</ul>
+<hr/>
+<div class="list-btn-todo">
+    <lightning-button label="Edit" variant="base" data-recordid={toDo.Id} onclick={editRecordTodo} class="slds-m-left_x-small"></lightning-button>
+    <lightning-button label="Delete" variant="base" data-recordid={toDo.Id} onclick={deleteRecord} class="slds-m-left_x-small"></lightning-button>
+</div>
+</div>
+</template>
+</template>
 
-    <!-- edit record todo-->
-    <template if:true={modalWindowEditTodo}>
+<!-- edit record todo-->
+<template if:true={modalWindowEditTodo}>
       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
           <!-- header -->
@@ -80,10 +81,10 @@
       </section>
       <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
-    <!-- end edit todo-->
-    
-    <!-- add new sub-todo -->
-    <template if:true={modalWindowAdd}>
+<!-- end edit todo-->
+
+<!-- add new sub-todo -->
+<template if:true={modalWindowAdd}>
       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
           <!-- header -->
@@ -115,10 +116,10 @@
       </section>
       <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
-     <!-- end modal window add sub-todo-->
-     
-    <!-- edit record -->
-    <template if:true={modalWindowEdit}>
+<!-- end modal window add sub-todo-->
+
+<!-- edit record -->
+<template if:true={modalWindowEdit}>
       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
           <!-- header -->
@@ -145,7 +146,7 @@
       </section>
       <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
-    <!-- end edit -->
+<!-- end edit -->
 
-  </lightning-card>
+</lightning-card>
 </template>
