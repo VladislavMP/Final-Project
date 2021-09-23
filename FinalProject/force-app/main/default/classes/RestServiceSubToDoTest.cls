@@ -1,5 +1,9 @@
 @isTest 
 public with sharing class RestServiceSubToDoTest {
+
+    private static final String ENDPOINT = 
+        'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/Sub_ToDo/';
+
     @isTest 
     public static void createRecordTest() {
 
@@ -9,7 +13,7 @@ public with sharing class RestServiceSubToDoTest {
         RestRequest request = RestServiceSubToDoTestData.createTestRequest(
             jsonBody, 
             'POST', 
-            'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/Sub_ToDo/'
+            ENDPOINT
         );
 
         RestContext.request = request;            
@@ -17,7 +21,8 @@ public with sharing class RestServiceSubToDoTest {
         Map <String, String> subToDosIdsMap = RestServiceSubToDo.createRecord();
 
         Id subToDoId = subToDosIdsMap.get(subToDoTest.Id);
-        Sub_ToDo__c subToDo = [SELECT Name, External_Id__c
+        Sub_ToDo__c subToDo = [
+            SELECT Name, External_Id__c
             FROM Sub_ToDo__c
             WHERE Id =: subToDoId
             LIMIT 1
@@ -37,7 +42,7 @@ public with sharing class RestServiceSubToDoTest {
         RestRequest request = RestServiceSubToDoTestData.createTestRequest(
             jsonBody, 
             'DELETE', 
-            'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/Sub_ToDo/'
+            ENDPOINT
         );
 
         RestContext.request = request;
@@ -59,7 +64,7 @@ public with sharing class RestServiceSubToDoTest {
         RestRequest request = RestServiceSubToDoTestData.createTestRequest(
             jsonBody, 
             'PATCH', 
-            'https://firstorg2-dev-ed.lightning.force.com/services/apexrest/Sub_ToDo/'
+            ENDPOINT
         );
 
         RestContext.request = request; 
@@ -67,7 +72,8 @@ public with sharing class RestServiceSubToDoTest {
         Map <String, String> subToDosIdsMap = RestServiceSubToDo.updateRecord();
 
         Id subToDoId = subToDosIdsMap.get(subToDoTest.Id);
-        Sub_ToDo__c subToDo = [SELECT Name, External_Id__c
+        Sub_ToDo__c subToDo = [
+            SELECT Name, External_Id__c
             FROM Sub_ToDo__c 
             WHERE Id =: subToDoId
             LIMIT 1

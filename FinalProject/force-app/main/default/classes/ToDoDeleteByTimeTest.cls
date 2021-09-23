@@ -16,13 +16,6 @@ private with sharing class ToDoDeleteByTimeTest {
         for (Integer i = 0; i < 2; i++) {
             Test.setCreatedDate(toDos[i].Id, testDateToDelete);
         }
-
-        /*ToDoTimeToDelete__mdt testMetadata = new ToDoTimeToDelete__mdt(
-            Label = 'Test',
-            DaysPast__c = 10,
-            MinutesPast__c = 10,
-            IsActive__c = true
-        );*/
     }
 
     @isTest 

@@ -2,7 +2,9 @@ public with sharing class ToDoTriggerHandler {
     public static Boolean disableIntegrationInTriggerFlag = false;
 
     public static void handleBeforeInsert(List<ToDo__c> todos){
-		QueueTriggerHandlerHelper.assignmentQueue(todos);
+        if(!disableIntegrationInTriggerFlag){
+		      QueueTriggerHandlerHelper.assignmentQueue(todos);
+        }
     } 
 
     public static void handleBeforeUpdate(List<ToDo__c> newList, Map<Id, ToDo__c> newMap, List<ToDo__c> oldList, Map<Id, ToDo__c> oldMap){

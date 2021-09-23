@@ -10,15 +10,12 @@ public with sharing class ToDoDeleteByTimeBatch implements Database.Batchable<SO
             ORDER BY DaysPast__c, MinutesPast__c
         ];
 
-        Integer days;
-        Integer minutes;
-        If (ToDoTimeToDeleteList.size() > 0){
+        Integer days = -1;
+        Integer minutes = -1;
+        If(ToDoTimeToDeleteList.size() > 0) {
             days = (Integer) ToDoTimeToDeleteList[0].DaysPast__c;
             minutes = (Integer) ToDoTimeToDeleteList[0].DaysPast__c;
         }
-        else {
-            System.abortJob(context.getJobId());
-        } 
 
         Integer deleteTimeMinutes = days * 24 * 60 + minutes;
         Datetime deleteDatetime = Datetime.now().addMinutes(-deleteTimeMinutes);

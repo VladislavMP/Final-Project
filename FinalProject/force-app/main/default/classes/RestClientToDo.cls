@@ -4,7 +4,7 @@ public with sharing class RestClientToDo {
 
     @future(callout=true)
     public static void sendCreateToDoRequest(List<Id> ids) {
-        List<ToDo__c> toDos = ToDoSoql.getToDosById(ids);
+        List<ToDo__c> toDos = ToDoSoql.getToDosWithOwnerIdById(ids);
         
         List<ToDoWrapper> wrappers = RestClientToDoHelper.wrapToDos(toDos);
         String jsonBody = JSON.serialize(wrappers);
@@ -25,7 +25,6 @@ public with sharing class RestClientToDo {
     
     @future(callout=true)
     public static void sendUpdateToDoRequest(List<Id> ids) {
-
         List<ToDo__c> toDos = ToDoSoql.getToDosById(ids);
 
         List<ToDoWrapper> wrappers = RestClientToDoHelper.wrapToDos(toDos);
