@@ -1,0 +1,79 @@
+.item-card-container {
+    box-shadow: 0 0 5px #1e63b3;
+    width: 95%;
+    margin: 1rem auto;
+}
+
+.item-card-container>hr {
+    margin: .5rem 1rem;
+}
+
+.list-btn-todo {
+    margin-left: 1.2rem;
+}
+
+.accordion-content-my {
+    display: flex;
+    box-shadow: 0px 0px 3px #235b9b85;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.todo-name {
+    font-weight: bold;
+}
+
+.btn-arrow {
+    margin: 0 1rem;
+    transition: .7s;
+}
+
+.btn-arrow-transform {
+    transform: rotate(-180deg);
+}
+
+.type-owner-todo {
+    color: #7c7c7c;
+}
+
+.accordion-content-name {
+    flex: 1;
+}
+
+.accordion-content-done {
+    flex: 1;
+}
+
+.accordion-content-done>span {
+    color: yellowgreen;
+}
+
+.accordion-content-data {
+    flex: 1;
+    margin-right: 1rem;
+    font-style: italic;
+    opacity: 0.5;
+}
+
+.button-custom {
+    margin-top: -.5rem;
+}
+
+.layout-item-container {
+    width: 100%;
+}
+
+.add-sub-form {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.btn-add {
+    float: right;
+    width: 55%;
+    margin-bottom: 1rem;
+}
+
+.my-modal-footer {
+    margin-top: -1rem;
+}

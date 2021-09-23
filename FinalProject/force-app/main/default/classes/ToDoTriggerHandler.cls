@@ -3,7 +3,7 @@ public with sharing class ToDoTriggerHandler {
 
     public static void handleBeforeInsert(List<ToDo__c> todos){
         if(!disableIntegrationInTriggerFlag){
-		    QueueTriggerHandlerHelper.assignmentQueue(todos);
+		      QueueTriggerHandlerHelper.assignmentQueue(todos);
         }
     } 
 
